@@ -5,5 +5,6 @@ module ShiftCommerce
     config.paypal_signature = "ALYGfT1J93GLRZF-3Y94ce-Z4UZgAsHIQqBoD5p.DabVWhLPVXkcHJw0"
     config.order_model = "Order"
     config.layout = "my_layout"
+    config.base_controller = "::ApplicationController"
   end
 end
