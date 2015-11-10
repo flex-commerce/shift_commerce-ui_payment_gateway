@@ -4,7 +4,7 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
   let(:currency) { ::ShiftCommerce::UiPaymentGateway::DEFAULT_CURRENCY }
   context "when paypal is the payment engine" do
     it "should redirect to paypal when a new transaction is started" do
-      get "/carts/1/transactions/new"
+      get "/orders/1/transactions/new/paypal"
       expect(response).to redirect_to /https:\/\/www.sandbox.paypal.com\/cgi-bin\/webscr\?cmd=_express-checkout&token=.+$/
     end
     context "with mocked paypal" do
@@ -36,14 +36,14 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
       end
       let!(:stub) { stub_request(:post, /https:\/\/.*\.sandbox\.paypal\.com/).to_return(body: dummy_paypal_response) }
       it "should send the correct amount to paypal" do
-        get "/carts/1/transactions/new"
+        get "/orders/1/transactions/new/paypal"
         expect(stub.with(body: %r(<n2:OrderTotal currencyID="#{currency}">10\.00<\/n2:OrderTotal>))).to have_been_requested
       end
 
       it "should send the correct urls to paypal" do
-        get "/carts/1/transactions/new"
-        expect(stub.with(body: %r(<n2:ReturnURL>#{base_url}/carts/1/transactions/new_with_token</n2:ReturnURL>))).to have_been_requested
-        expect(stub.with(body: %r(<n2:CancelURL>#{base_url}/carts/1</n2:CancelURL>))).to have_been_requested
+        get "/orders/1/transactions/new/paypal"
+        expect(stub.with(body: %r(<n2:ReturnURL>#{base_url}/orders/1/transactions/new_with_token</n2:ReturnURL>))).to have_been_requested
+        expect(stub.with(body: %r(<n2:CancelURL>#{base_url}/orders/1</n2:CancelURL>))).to have_been_requested
 
       end
     end

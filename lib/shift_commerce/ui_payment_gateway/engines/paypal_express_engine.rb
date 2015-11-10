@@ -1,28 +1,48 @@
 require "active_merchant"
 module ShiftCommerce
   module UiPaymentGateway
+    DEFAULT_DESCRIPTION = "THE DEFAULT DESCRIPTION - TO BE CHANGED"
     class PaypalExpressEngine
-      def initialize(cart:, gateway_class: ::ActiveMerchant::Billing::PaypalExpressGateway, config: Config.instance, request:, success_url:, cancel_url:)
-        self.cart = cart
+      def initialize(order:, gateway_class: ::ActiveMerchant::Billing::PaypalExpressGateway, config: Config.instance, request:, success_url:, cancel_url:)
+        self.order = order
         self.request = request
         self.gateway = gateway_class.new({login: config.paypal_login, password: config.paypal_password, signature: config.paypal_signature})
         self.success_url = success_url
         self.cancel_url = cancel_url
       end
-      # @param [Cart] cart The cart that the payment is for
+      # @param [Order] order The order that the payment is for
       # @return [String] The URL to redirect the user to
       def setup_payment(cart)
         response = gateway.setup_purchase 1000,
                                           ip: request.remote_ip,
                                           return_url: success_url,
                                           cancel_return_url: cancel_url,
-                                          currency: ::ShiftCommerce::UiPaymentGateway::DEFAULT_CURRENCY
+                                          currency: ::ShiftCommerce::UiPaymentGateway::DEFAULT_CURRENCY,
+                                          description: DEFAULT_DESCRIPTION,
+                                          items: [
+                                            {
+                                              name: "Name",
+                                              number: "Number",
+                                              quantity: 1,
+                                              amount: 500,
+                                              description: "Description",
+                                              url: "http://www.google.com"
+                                            },
+                                            {
+                                              name: "Name",
+                                              number: "Number",
+                                              quantity: 1,
+                                              amount: 500,
+                                              description: "Description",
+                                              url: "http://www.google.com"
+                                            }
+                                          ]
         gateway.redirect_url_for(response.token)
       end
 
       private
 
-      attr_accessor :cart, :gateway, :request, :success_url, :cancel_url
+      attr_accessor :order, :gateway, :request, :success_url, :cancel_url
     end
   end
 end

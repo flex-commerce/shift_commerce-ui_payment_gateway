@@ -12,4 +12,17 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
-
+group :test do
+  gem "rspec-rails", "~> 3.3"
+  gem "factory_girl_rails", "~> 4.5"
+  gem "webmock", "~> 1.22"
+  gem "vcr", "~> 3.0"
+  gem "simplecov"
+  gem "capybara"
+  gem "capybara_objects"
+  gem "selenium-webdriver"
+  gem "capybara-screenshot", "~> 1.0"
+  gem "chromedriver-helper", ">= 0.0.8"
+  gem 'capybara-webkit', '~> 1.7'
+end
+gem "sqlite3"
