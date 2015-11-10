@@ -1,6 +1,7 @@
 module ShiftCommerce
   module UiPaymentGateway
     class TransactionsController < Config.instance.base_controller.constantize
+      include Rails.application.routes.url_helpers
 
       OrderModel = Config.instance.order_model.constantize
       extend ActiveSupport::Concern
