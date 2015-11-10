@@ -5,7 +5,7 @@ module ShiftCommerce
       helper_attr :page_title
 
 
-      OrderModel = ::Order
+      OrderModel = Config.instance.order_model.constantize
       extend ActiveSupport::Concern
 
       def new_with_gateway
