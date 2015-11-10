@@ -1,9 +1,6 @@
 module ShiftCommerce
   module UiPaymentGateway
     class TransactionsController < Config.instance.base_controller.constantize
-      attr_accessor :page_title
-      helper_attr :page_title
-      layout Config.instance.layout
 
       OrderModel = Config.instance.order_model.constantize
       extend ActiveSupport::Concern
