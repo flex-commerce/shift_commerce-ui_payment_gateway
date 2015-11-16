@@ -58,6 +58,12 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
         expect(stub.with(body: %r(<n2:Country>shipping country</n2:Country>))).to have_been_requested
         expect(stub.with(body: %r(<n2:PostalCode>shipping postcode</n2:PostalCode>))).to have_been_requested
       end
+
+      it "should override the address with ours" do
+        get "/orders/1/transactions/new/paypal"
+        expect(stub.with(body: %r(<n2:AddressOverride>1</n2:AddressOverride>))).to have_been_requested
+
+      end
     end
   end
 end

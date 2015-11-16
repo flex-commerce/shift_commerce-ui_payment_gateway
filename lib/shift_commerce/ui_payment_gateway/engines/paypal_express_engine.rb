@@ -19,6 +19,7 @@ module ShiftCommerce
                                           return_url: success_url,
                                           cancel_return_url: cancel_url,
                                           currency: ::ShiftCommerce::UiPaymentGateway::DEFAULT_CURRENCY,
+                                          address_override: true,
                                           shipping_address: {
                                             name: shipping_address.name,
                                             address1: shipping_address.address_line_1,
