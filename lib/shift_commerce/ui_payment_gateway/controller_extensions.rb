@@ -3,7 +3,7 @@ module ShiftCommerce
   module UiPaymentGateway
     module ControllerExtensions
       def new_with_gateway
-        redirect_to payment_service.setup_payment(order: cart)
+        redirect_to payment_service.setup_payment(cart: cart)
       end
 
       def new
@@ -11,7 +11,7 @@ module ShiftCommerce
       end
 
       def new_with_token
-        payment_service.process_token(token: params[:token], order: cart, payer_id: params[:PayerID])
+        payment_service.process_token(token: params[:token], cart: cart, payer_id: params[:PayerID])
       end
 
       private
