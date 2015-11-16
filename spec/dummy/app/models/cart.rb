@@ -1,4 +1,4 @@
-class Order
+class Cart
   extend ActiveModel::Model
   attr_accessor :id, :total
   def self.find(id)

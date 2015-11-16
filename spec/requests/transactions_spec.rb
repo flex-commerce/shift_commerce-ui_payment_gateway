@@ -5,7 +5,7 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
   context "when paypal is the payment engine" do
     context "stage 1 - capturing" do
       it "should redirect to paypal when a new transaction is started" do
-        get "/orders/1/transactions/new/paypal"
+        get "/cart/transactions/new/paypal"
         expect(response).to redirect_to /https:\/\/www.sandbox.paypal.com\/cgi-bin\/webscr\?cmd=_express-checkout&token=.+$/
       end
       context "with mocked paypal" do
@@ -37,19 +37,19 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
         end
         let!(:stub) { stub_request(:post, /https:\/\/.*\.sandbox\.paypal\.com/).to_return(body: dummy_paypal_response) }
         it "should send the correct amount to paypal" do
-          get "/orders/1/transactions/new/paypal"
-          expect(stub.with(body: %r(<n2:OrderTotal currencyID="#{currency}">100\.00<\/n2:OrderTotal>))).to have_been_requested
+          get "/cart/transactions/new/paypal"
+          expect(stub.with(body: %r(<n2:OrderTotal currencyID="#{currency}">10\.00<\/n2:OrderTotal>))).to have_been_requested
         end
 
         it "should send the correct urls to paypal" do
-          get "/orders/1/transactions/new/paypal"
-          expect(stub.with(body: %r(<n2:ReturnURL>#{base_url}/orders/1/transactions/new_with_token/paypal</n2:ReturnURL>))).to have_been_requested
-          expect(stub.with(body: %r(<n2:CancelURL>#{base_url}/orders/1</n2:CancelURL>))).to have_been_requested
+          get "/cart/transactions/new/paypal"
+          expect(stub.with(body: %r(<n2:ReturnURL>#{base_url}/cart/transactions/new_with_token/paypal</n2:ReturnURL>))).to have_been_requested
+          expect(stub.with(body: %r(<n2:CancelURL>#{base_url}/cart</n2:CancelURL>))).to have_been_requested
 
         end
 
         it "should send the shipping address to paypal" do
-          get "/orders/1/transactions/new/paypal"
+          get "/cart/transactions/new/paypal"
           expect(stub.with(body: /<n2:ShipToAddress>.*<\/n2:ShipToAddress>/m)).to have_been_requested
           expect(stub.with(body: %r(<n2:Name>shipping name</n2:Name>))).to have_been_requested
           expect(stub.with(body: %r(<n2:Street1>shipping address 1</n2:Street1>))).to have_been_requested
@@ -61,7 +61,7 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
         end
 
         it "should override the address with ours" do
-          get "/orders/1/transactions/new/paypal"
+          get "/cart/transactions/new/paypal"
           expect(stub.with(body: %r(<n2:AddressOverride>1</n2:AddressOverride>))).to have_been_requested
         end
 
@@ -82,7 +82,7 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
         end
         let!(:stub) { stub_request(:post, /https:\/\/.*\.sandbox\.paypal\.com/).to_return(body: dummy_paypal_response) }
         it "should complete the transaction with paypal" do
-          get "/orders/1/transactions/new_with_token/paypal?token=SOMERANDOMTOKEN&PayerID=SOMERANDOMPAYERID"
+          get "/cart/transactions/new_with_token/paypal?token=SOMERANDOMTOKEN&PayerID=SOMERANDOMPAYERID"
           expect(stub.with(body: %r(<n2:Token>SOMERANDOMTOKEN</n2:Token>))).to have_been_requested
           expect(stub.with(body: %r(<n2:PayerID>SOMERANDOMPAYERID</n2:PayerID>))).to have_been_requested
 

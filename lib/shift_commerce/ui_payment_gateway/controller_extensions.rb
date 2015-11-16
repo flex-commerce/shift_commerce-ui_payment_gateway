@@ -2,9 +2,8 @@ require "active_support/concern"
 module ShiftCommerce
   module UiPaymentGateway
     module ControllerExtensions
-      OrderModel = Config.instance.order_model.constantize
       def new_with_gateway
-        redirect_to payment_service.setup_payment(order: order)
+        redirect_to payment_service.setup_payment(order: cart)
       end
 
       def new
@@ -12,19 +11,19 @@ module ShiftCommerce
       end
 
       def new_with_token
-        payment_service.process_token(token: params[:token], order: order, payer_id: params[:PayerID])
+        payment_service.process_token(token: params[:token], order: cart, payer_id: params[:PayerID])
       end
 
       private
 
-      def order
-        OrderModel.find(params[:order_id])
+      def cart
+        send(Config.instance.current_cart_method)
       end
 
       def payment_service
         if params[:gateway] == "paypal"
           @payment_service ||= ::ShiftCommerce::UiPaymentGateway::PaymentService.new engine: :paypal_express,
-                                                                                     order: order,
+                                                                                     cart: cart,
                                                                                      request: request,
                                                                                      success_url: url_for(action: :new_with_token),
                                                                                      cancel_url: url_for(action: :new).gsub(/\/transactions\/new$/, ''),
