@@ -13,7 +13,7 @@ class Address
   private
 
   def self.default_attributes
-    { name: "address name", address_line_1: "address line 1" }
+    { name: "address name", address_line_1: "address line 1", country: "GB" }
   end
 
 end

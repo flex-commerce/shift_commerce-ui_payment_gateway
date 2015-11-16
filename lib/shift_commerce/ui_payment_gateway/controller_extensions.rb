@@ -11,6 +11,10 @@ module ShiftCommerce
         self.page_title = I18n.t("transactions.new.page_title")
       end
 
+      def new_with_token
+        payment_service.process_token(token: params[:token], order: order, payer_id: params[:PayerID])
+      end
+
       private
 
       def order

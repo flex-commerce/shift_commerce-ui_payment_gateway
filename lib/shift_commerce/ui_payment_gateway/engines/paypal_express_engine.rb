@@ -14,7 +14,7 @@ module ShiftCommerce
       # @return [String] The URL to redirect the user to
       def setup_payment(order:)
         shipping_address = order.shipping_address
-        response = gateway.setup_purchase 1000,
+        response = gateway.setup_purchase convert_amount(order.total),
                                           ip: request.remote_ip,
                                           return_url: success_url,
                                           cancel_return_url: cancel_url,
@@ -52,7 +52,16 @@ module ShiftCommerce
         gateway.redirect_url_for(response.token)
       end
 
+      def process_token(token:, order:, payer_id:)
+        tmp = gateway.purchase(convert_amount(order.total), token: token, payer_id: payer_id)
+        tmp=1
+      end
+
       private
+
+      def convert_amount(amount)
+        (amount * 100).to_i
+      end
 
       attr_accessor :order, :gateway, :request, :success_url, :cancel_url
     end

@@ -19,7 +19,7 @@ class Order
                                       city: "shipping address city",
                                       state: "shipping address state",
                                       postcode: "shipping postcode",
-                                      country: "shipping country"
+                                      country: "GB"
   end
 
   private
