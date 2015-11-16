@@ -46,6 +46,18 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
         expect(stub.with(body: %r(<n2:CancelURL>#{base_url}/orders/1</n2:CancelURL>))).to have_been_requested
 
       end
+
+      it "should send the shipping address to paypal" do
+        get "/orders/1/transactions/new/paypal"
+        expect(stub.with(body: /<n2:ShipToAddress>.*<\/n2:ShipToAddress>/m)).to have_been_requested
+        expect(stub.with(body: %r(<n2:Name>shipping name</n2:Name>))).to have_been_requested
+        expect(stub.with(body: %r(<n2:Street1>shipping address 1</n2:Street1>))).to have_been_requested
+        expect(stub.with(body: %r(<n2:Street2>shipping address 2</n2:Street2>))).to have_been_requested
+        expect(stub.with(body: %r(<n2:CityName>shipping address city</n2:CityName>))).to have_been_requested
+        expect(stub.with(body: %r(<n2:StateOrProvince>shipping address state</n2:StateOrProvince>))).to have_been_requested
+        expect(stub.with(body: %r(<n2:Country>shipping country</n2:Country>))).to have_been_requested
+        expect(stub.with(body: %r(<n2:PostalCode>shipping postcode</n2:PostalCode>))).to have_been_requested
+      end
     end
   end
 end

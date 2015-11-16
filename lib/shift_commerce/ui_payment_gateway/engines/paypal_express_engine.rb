@@ -12,12 +12,23 @@ module ShiftCommerce
       end
       # @param [Order] order The order that the payment is for
       # @return [String] The URL to redirect the user to
-      def setup_payment(cart)
+      def setup_payment(order:)
+        shipping_address = order.shipping_address
         response = gateway.setup_purchase 1000,
                                           ip: request.remote_ip,
                                           return_url: success_url,
                                           cancel_return_url: cancel_url,
                                           currency: ::ShiftCommerce::UiPaymentGateway::DEFAULT_CURRENCY,
+                                          shipping_address: {
+                                            name: shipping_address.name,
+                                            address1: shipping_address.address_line_1,
+                                            address2: shipping_address.address_line_2,
+                                            city: shipping_address.city,
+                                            state: shipping_address.state,
+                                            country: shipping_address.country,
+                                            zip: shipping_address.postcode
+
+                                          },
                                           description: DEFAULT_DESCRIPTION,
                                           items: [
                                             {

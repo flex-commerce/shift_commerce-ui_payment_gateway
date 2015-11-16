@@ -8,7 +8,7 @@ module ShiftCommerce
       end
 
       def new
-        self.page_title = I18n.t("ui_payment_gateway.transactions.new.page_title")
+        self.page_title = I18n.t("transactions.new.page_title")
       end
 
       private

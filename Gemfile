@@ -24,5 +24,6 @@ group :test do
   gem "capybara-screenshot", "~> 1.0"
   gem "chromedriver-helper", ">= 0.0.8"
   gem 'capybara-webkit', '~> 1.7'
+  gem "test_xml", "~> 0.1"
 end
 gem "sqlite3"
