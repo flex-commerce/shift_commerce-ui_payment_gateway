@@ -42,7 +42,11 @@ module ShiftCommerce
                                           },
                                           description: DEFAULT_DESCRIPTION,
                                           items: items
-        gateway.redirect_url_for(response.token)
+        if response.success?
+          gateway.redirect_url_for(response.token)
+        else
+          raise "An error occured communicating with paypal " # @TODO Find out where to get the message from and add it
+        end
       end
 
       def process_token(token:, cart:, payer_id:)
@@ -53,7 +57,7 @@ module ShiftCommerce
       private
 
       def convert_amount(amount)
-        (amount * 100).to_i
+        (amount * 100).round
       end
 
       attr_accessor :cart, :gateway, :request, :success_url, :cancel_url

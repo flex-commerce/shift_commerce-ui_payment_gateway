@@ -11,28 +11,23 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
       context "with mocked paypal" do
         let(:dummy_paypal_response) do
           <<-EOS
-          <?xml version="1.0" encoding="UTF-8"?>
-          <env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <env:Header><RequesterCredentials xmlns="urn:ebay:api:PayPalAPI" xmlns:n1="urn:ebay:apis:eBLBaseComponents" env:mustUnderstand="0"><n1:Credentials><n1:Username>gary.taylor_api1.flexcommerce.com</n1:Username><n1:Password>CXLBLQM64B6AXULK</n1:Password><n1:Subject/><n1:Signature>ALYGfT1J93GLRZF-3Y94ce-Z4UZgAsHIQqBoD5p.DabVWhLPVXkcHJw0</n1:Signature></n1:Credentials></RequesterCredentials></env:Header>
-            <env:Body>
-              <SetExpressCheckoutReq xmlns="urn:ebay:api:PayPalAPI">
-                <SetExpressCheckoutRequest xmlns:n2="urn:ebay:apis:eBLBaseComponents">
-                  <n2:Version>124</n2:Version>
-                  <n2:SetExpressCheckoutRequestDetails>
-                    <n2:ReturnURL>http://mydomain.com/good_url</n2:ReturnURL>
-                    <n2:CancelURL>http://mydomain.com/bad_url</n2:CancelURL>
-                    <n2:ReqBillingAddress>0</n2:ReqBillingAddress>
-                    <n2:NoShipping>0</n2:NoShipping>
-                    <n2:AddressOverride>0</n2:AddressOverride>
-                    <n2:PaymentDetails>
-                      <n2:OrderTotal currencyID="USD">10.00</n2:OrderTotal>
-                      <n2:ButtonSource>ActiveMerchant</n2:ButtonSource>
-                      <n2:PaymentAction>Sale</n2:PaymentAction>
-                    </n2:PaymentDetails>
-                  </n2:SetExpressCheckoutRequestDetails>
-                </SetExpressCheckoutRequest>
-              </SetExpressCheckoutReq>
-            </env:Body></env:Envelope>
+        <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:cc="urn:ebay:apis:CoreComponentTypes" xmlns:wsu="http://schemas.xmlsoap.org/ws/2002/07/utility"
+        xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+        xmlns:wsse="http://schemas.xmlsoap.org/ws/2002/12/secext" xmlns:ed="urn:ebay:apis:EnhancedDataTypes"
+        xmlns:ebl="urn:ebay:apis:eBLBaseComponents" xmlns:ns="urn:ebay:api:PayPalAPI"><SOAP-ENV:Header><Security
+        xmlns="http://schemas.xmlsoap.org/ws/2002/12/secext" xsi:type="wsse:SecurityType"></Security><RequesterCredentials
+        xmlns="urn:ebay:api:PayPalAPI" xsi:type="ebl:CustomSecurityHeaderType"><Credentials
+        xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:UserIdPasswordType"><Username
+        xsi:type="xs:string"></Username><Password xsi:type="xs:string"></Password><Signature
+        xsi:type="xs:string"></Signature><Subject xsi:type="xs:string"></Subject></Credentials></RequesterCredentials></SOAP-ENV:Header><SOAP-ENV:Body
+        id="_0"><SetExpressCheckoutResponse xmlns="urn:ebay:api:PayPalAPI"><Timestamp
+        xmlns="urn:ebay:apis:eBLBaseComponents">2015-11-17T14:14:42Z</Timestamp><Ack
+        xmlns="urn:ebay:apis:eBLBaseComponents">Success</Ack><CorrelationID xmlns="urn:ebay:apis:eBLBaseComponents">817fb68526a17</CorrelationID><Version
+        xmlns="urn:ebay:apis:eBLBaseComponents">124</Version><Build xmlns="urn:ebay:apis:eBLBaseComponents">18308778</Build><Token
+        xsi:type="ebl:ExpressCheckoutTokenType">EC-7S574538S90932332</Token></SetExpressCheckoutResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
           EOS
         end
         let!(:stub) { stub_request(:post, /https:\/\/.*\.sandbox\.paypal\.com/).to_return(body: dummy_paypal_response) }
