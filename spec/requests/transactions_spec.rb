@@ -38,7 +38,7 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
         let!(:stub) { stub_request(:post, /https:\/\/.*\.sandbox\.paypal\.com/).to_return(body: dummy_paypal_response) }
         it "should send the correct amount to paypal" do
           get "/cart/transactions/new/paypal"
-          expect(stub.with(body: %r(<n2:OrderTotal currencyID="#{currency}">10\.00<\/n2:OrderTotal>))).to have_been_requested
+          expect(stub.with(body: %r(<n2:OrderTotal currencyID="#{currency}">40\.00<\/n2:OrderTotal>))).to have_been_requested
         end
 
         it "should send the correct urls to paypal" do
@@ -63,6 +63,11 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
         it "should override the address with ours" do
           get "/cart/transactions/new/paypal"
           expect(stub.with(body: %r(<n2:AddressOverride>1</n2:AddressOverride>))).to have_been_requested
+        end
+
+        it "should send the line items to paypal" do
+          get "/cart/transactions/new/paypal"
+          expect(stub.with(body: %r(<n2:Name>Line item 1 name<\/n2:Name>))).to have_been_requested
         end
 
       end

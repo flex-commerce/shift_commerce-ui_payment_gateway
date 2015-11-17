@@ -22,7 +22,23 @@ class Cart
                                       country: "GB"
   end
 
+  def line_items
+    @line_items ||= build_line_items
+  end
+
+  def total
+    line_items.map(&:total).sum
+  end
+
   private
+
+  def build_line_items
+    results = []
+    10.times do |idx|
+      results << LineItem.new(title: "Line item #{idx} name")
+    end
+    results
+  end
 
   def self.default_attributes
     { total: 100.0 }

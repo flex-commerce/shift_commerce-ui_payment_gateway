@@ -14,6 +14,16 @@ module ShiftCommerce
       # @return [String] The URL to redirect the user to
       def setup_payment(cart:)
         shipping_address = cart.shipping_address
+        items = cart.line_items.map do |li|
+          {
+            name: li.title,
+            number: "Number",
+            quantity: li.unit_quantity,
+            amount: convert_amount(li.total / li.unit_quantity),
+            description: li.title,
+            url: "http://www.google.com"
+          }
+        end
         response = gateway.setup_purchase convert_amount(cart.total),
                                           ip: request.remote_ip,
                                           return_url: success_url,
@@ -31,24 +41,7 @@ module ShiftCommerce
 
                                           },
                                           description: DEFAULT_DESCRIPTION,
-                                          items: [
-                                            {
-                                              name: "Name",
-                                              number: "Number",
-                                              quantity: 1,
-                                              amount: 500,
-                                              description: "Description",
-                                              url: "http://www.google.com"
-                                            },
-                                            {
-                                              name: "Name",
-                                              number: "Number",
-                                              quantity: 1,
-                                              amount: 500,
-                                              description: "Description",
-                                              url: "http://www.google.com"
-                                            }
-                                          ]
+                                          items: items
         gateway.redirect_url_for(response.token)
       end
 
