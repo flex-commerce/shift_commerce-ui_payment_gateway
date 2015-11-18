@@ -2,6 +2,11 @@ require "active_support/concern"
 module ShiftCommerce
   module UiPaymentGateway
     module ControllerExtensions
+
+      def order_model
+        ::ShiftCommerce::UiPaymentGateway::Config.instance.order_model.constantize
+      end
+
       def new_with_gateway
         redirect_to payment_service.setup_payment(cart: cart)
       end
@@ -11,7 +16,21 @@ module ShiftCommerce
       end
 
       def new_with_token
-        payment_service.process_token(token: params[:token], cart: cart, payer_id: params[:PayerID])
+        gateway_response = payment_service.process_token(token: params[:token], cart: cart, payer_id: params[:PayerID])
+        txn = {
+          gateway_response: gateway_response,
+          amount: cart.total,
+          currency: ::ShiftCommerce::UiPaymentGateway::DEFAULT_CURRENCY,
+          transaction_type: "paypal_express",
+          status: "success"
+        }
+        order = order_model.create(cart_id: cart.id, transaction_attributes: txn )
+        on_order_created(order)
+      end
+
+      def on_order_created(order)
+        redirect_to action: :show, id: order.id, controller: ::ShiftCommerce::UiPaymentGateway::Config.instance.order_model.underscore.pluralize
+
       end
 
       private

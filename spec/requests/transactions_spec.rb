@@ -72,12 +72,63 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
       context "with mocked paypal" do
         let(:dummy_paypal_response) do
           <<-EOS
-          <?xml version="1.0" encoding="UTF-8"?>
-          <env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <env:Header><RequesterCredentials xmlns="urn:ebay:api:PayPalAPI" xmlns:n1="urn:ebay:apis:eBLBaseComponents" env:mustUnderstand="0"><n1:Credentials><n1:Username>gary.taylor_api1.flexcommerce.com</n1:Username><n1:Password>CXLBLQM64B6AXULK</n1:Password><n1:Subject/><n1:Signature>ALYGfT1J93GLRZF-3Y94ce-Z4UZgAsHIQqBoD5p.DabVWhLPVXkcHJw0</n1:Signature></n1:Credentials></RequesterCredentials></env:Header>
-            <env:Body>
-              </SetExpressCheckoutReq>
-            </env:Body></env:Envelope>
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+                   xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cc="urn:ebay:apis:CoreComponentTypes"
+                   xmlns:wsu="http://schemas.xmlsoap.org/ws/2002/07/utility"
+                   xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+                   xmlns:wsse="http://schemas.xmlsoap.org/ws/2002/12/secext" xmlns:ed="urn:ebay:apis:EnhancedDataTypes"
+                   xmlns:ebl="urn:ebay:apis:eBLBaseComponents" xmlns:ns="urn:ebay:api:PayPalAPI">
+  <SOAP-ENV:Header>
+    <Security xmlns="http://schemas.xmlsoap.org/ws/2002/12/secext" xsi:type="wsse:SecurityType"></Security>
+    <RequesterCredentials xmlns="urn:ebay:api:PayPalAPI" xsi:type="ebl:CustomSecurityHeaderType">
+      <Credentials xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:UserIdPasswordType">
+        <Username xsi:type="xs:string"></Username>
+        <Password xsi:type="xs:string"></Password>
+        <Signature xsi:type="xs:string"></Signature>
+        <Subject xsi:type="xs:string"></Subject>
+      </Credentials>
+    </RequesterCredentials>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body id="_0">
+    <DoExpressCheckoutPaymentResponse xmlns="urn:ebay:api:PayPalAPI">
+      <Timestamp xmlns="urn:ebay:apis:eBLBaseComponents">2015-11-18T09:19:30Z</Timestamp>
+      <Ack xmlns="urn:ebay:apis:eBLBaseComponents">Success</Ack>
+      <CorrelationID xmlns="urn:ebay:apis:eBLBaseComponents">f2c9e5afa6977</CorrelationID>
+      <Version xmlns="urn:ebay:apis:eBLBaseComponents">124</Version>
+      <Build xmlns="urn:ebay:apis:eBLBaseComponents">18308778</Build>
+      <DoExpressCheckoutPaymentResponseDetails xmlns="urn:ebay:apis:eBLBaseComponents"
+                                               xsi:type="ebl:DoExpressCheckoutPaymentResponseDetailsType">
+        <Token xsi:type="ebl:ExpressCheckoutTokenType">EC-0L085039R20178634</Token>
+        <PaymentInfo xsi:type="ebl:PaymentInfoType">
+          <TransactionID>6JH338372S307180T</TransactionID>
+          <ParentTransactionID xsi:type="ebl:TransactionId"></ParentTransactionID>
+          <ReceiptID></ReceiptID>
+          <TransactionType xsi:type="ebl:PaymentTransactionCodeType">express-checkout</TransactionType>
+          <PaymentType xsi:type="ebl:PaymentCodeType">instant</PaymentType>
+          <PaymentDate xsi:type="xs:dateTime">2015-11-18T09:19:29Z</PaymentDate>
+          <GrossAmount xsi:type="cc:BasicAmountType" currencyID="GBP">520.13</GrossAmount>
+          <FeeAmount xsi:type="cc:BasicAmountType" currencyID="GBP">17.88</FeeAmount>
+          <TaxAmount xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</TaxAmount>
+          <ExchangeRate xsi:type="xs:string"></ExchangeRate>
+          <PaymentStatus xsi:type="ebl:PaymentStatusCodeType">Completed</PaymentStatus>
+          <PendingReason xsi:type="ebl:PendingStatusCodeType">none</PendingReason>
+          <ReasonCode xsi:type="ebl:ReversalReasonCodeType">none</ReasonCode>
+          <ProtectionEligibility xsi:type="xs:string">Eligible</ProtectionEligibility>
+          <ProtectionEligibilityType xsi:type="xs:string">ItemNotReceivedEligible,UnauthorizedPaymentEligible
+          </ProtectionEligibilityType>
+          <SellerDetails xsi:type="ebl:SellerDetailsType">
+            <SecureMerchantAccountID xsi:type="ebl:UserIDType">ZB5ZKU4VGX8HJ</SecureMerchantAccountID>
+          </SellerDetails>
+        </PaymentInfo>
+        <SuccessPageRedirectRequested xsi:type="xs:string">false</SuccessPageRedirectRequested>
+        <CoupledPaymentInfo xsi:type="ebl:CoupledPaymentInfoType"></CoupledPaymentInfo>
+      </DoExpressCheckoutPaymentResponseDetails>
+    </DoExpressCheckoutPaymentResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
           EOS
         end
         let!(:stub) { stub_request(:post, /https:\/\/.*\.sandbox\.paypal\.com/).to_return(body: dummy_paypal_response) }
@@ -85,6 +136,7 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
           get "/cart/transactions/new_with_token/paypal?token=SOMERANDOMTOKEN&PayerID=SOMERANDOMPAYERID"
           expect(stub.with(body: %r(<n2:Token>SOMERANDOMTOKEN</n2:Token>))).to have_been_requested
           expect(stub.with(body: %r(<n2:PayerID>SOMERANDOMPAYERID</n2:PayerID>))).to have_been_requested
+          expect(response).to redirect_to(/orders\/[^\/]*$/)
 
         end
 

@@ -49,9 +49,16 @@ module ShiftCommerce
         end
       end
 
+      # Processes the token - i.e. takes the payment and returns the authorisation code
+      # @param [String] token The token to use (comes from params[:token] in the controller)
+      # @param [Object] cart The cart for which we are taking payment for
+      # @param [Object] payer_id The payer id (comes from params["PayerID"] in the controller)
+      # @return [Hash] The authorization id and token to be stored by the application (auth_id: [String], token: [String])
+      # @raise [ShiftCommerce::UiPaymentGateway::Exceptions::PaymentNotAccepted] Raised if paypal errors for any reason - the response is available as an attribute on the exception
       def process_token(token:, cart:, payer_id:)
-        tmp = gateway.purchase(convert_amount(cart.total), token: token, payer_id: payer_id)
-        tmp=1
+        response = gateway.purchase(convert_amount(cart.total), token: token, payer_id: payer_id, currency: ::ShiftCommerce::UiPaymentGateway::DEFAULT_CURRENCY)
+        raise Exceptions::PaymentNotAccepted.new(response) unless response.success?
+        return { auth_id: response.authorization, token: response.token }
       end
 
       private
