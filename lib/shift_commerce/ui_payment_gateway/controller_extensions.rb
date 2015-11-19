@@ -44,8 +44,8 @@ module ShiftCommerce
           @payment_service ||= ::ShiftCommerce::UiPaymentGateway::PaymentService.new engine: :paypal_express,
                                                                                      cart: cart,
                                                                                      request: request,
-                                                                                     success_url: url_for(action: :new_with_token),
-                                                                                     cancel_url: url_for(action: :new).gsub(/\/transactions\/new$/, ''),
+                                                                                     success_url: url_for(action: :new_with_token, only_path: true),
+                                                                                     cancel_url: url_for(action: :new, only_path: true).gsub(/\/transactions\/new$/, ''),
                                                                                      controller: self.class.name.gsub(/Controller$/, '').underscore.to_sym
         end
       end
