@@ -1,3 +1,4 @@
+require "active_merchant"
 module ShiftCommerce
   module UiPaymentGateway
     class Engine < ::Rails::Engine
