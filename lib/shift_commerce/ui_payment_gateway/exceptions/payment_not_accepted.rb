@@ -8,6 +8,10 @@ module ShiftCommerce
           self.response = response
         end
 
+        def message
+          "PaymentNotAccepted Exception - #{response.message} \n\n#{response.params.to_json}"
+        end
+
       end
     end
   end
