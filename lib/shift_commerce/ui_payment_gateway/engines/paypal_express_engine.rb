@@ -45,7 +45,7 @@ module ShiftCommerce
         if response.success?
           gateway.redirect_url_for(response.token)
         else
-          raise "An error occured communicating with paypal " # @TODO Find out where to get the message from and add it
+          raise "An error occured communicating with paypal #{response.message} \n\n#{response.params.to_json}" # @TODO Find out where to get the message from and add it
         end
       end
 
