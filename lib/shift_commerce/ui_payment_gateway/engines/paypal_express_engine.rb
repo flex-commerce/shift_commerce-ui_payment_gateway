@@ -7,6 +7,7 @@ module ShiftCommerce
         self.cart = cart
         self.request = request
         self.gateway = gateway_class.new({login: config.paypal_login, password: config.paypal_password, signature: config.paypal_signature})
+        gateway.class.wiredump_device = config.wiredump_device if config.wiredump_device.present?
         self.success_url = success_url
         self.cancel_url = cancel_url
       end
