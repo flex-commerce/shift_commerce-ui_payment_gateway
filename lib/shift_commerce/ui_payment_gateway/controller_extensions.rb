@@ -21,8 +21,9 @@ module ShiftCommerce
           gateway_response: gateway_response,
           amount: cart.total,
           currency: ::ShiftCommerce::UiPaymentGateway::DEFAULT_CURRENCY,
-          transaction_type: "paypal_express",
-          status: "success"
+          transaction_type: "settlement",
+          payment_gateway_reference: "paypal_express",
+          status: "success",
         }
         order = order_model.create(cart_id: cart.id, transaction_attributes: txn )
         on_order_created(order)
