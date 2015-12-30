@@ -25,7 +25,7 @@ module ShiftCommerce
           payment_gateway_reference: "paypal_express",
           status: "success",
         }
-        order = order_model.create(cart_id: cart.id, transaction_attributes: txn )
+        order = order_model.create(cart_id: cart.id, transaction_attributes: txn, order_ip_address: request.ip )
         on_order_created(order)
       end
 
