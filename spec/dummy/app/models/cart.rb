@@ -12,7 +12,9 @@ class Cart
   end
 
   def shipping_address
-    @shipping_address ||= Address.new name: "shipping name",
+    @shipping_address ||= Address.new first_name: "first",
+                                      middle_names: "middle",
+                                      last_name: "last",
                                       address_line_1: "shipping address 1",
                                       address_line_2: "shipping address 2",
                                       address_line_3: "shipping address 3",

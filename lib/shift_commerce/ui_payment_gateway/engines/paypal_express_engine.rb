@@ -32,7 +32,7 @@ module ShiftCommerce
                                           currency: ::ShiftCommerce::UiPaymentGateway::DEFAULT_CURRENCY,
                                           address_override: true,
                                           shipping_address: {
-                                            name: shipping_address.name,
+                                            name: "#{shipping_address.first_name} #{shipping_address.middle_names} #{shipping_address.last_name}",
                                             address1: shipping_address.address_line_1,
                                             address2: shipping_address.address_line_2,
                                             city: shipping_address.city,

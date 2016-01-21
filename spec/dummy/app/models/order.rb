@@ -1,6 +1,6 @@
 class Order
   extend ActiveModel::Model
-  attr_accessor :id, :total, :cart_id, :transaction_attributes
+  attr_accessor :id, :total, :cart_id, :transaction_attributes, :order_ip_address
   def self.find(id)
     new(default_attributes)
   end
