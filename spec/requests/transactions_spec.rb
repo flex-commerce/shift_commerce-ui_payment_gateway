@@ -36,28 +36,58 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
           expect(stub.with(body: %r(<n2:OrderTotal currencyID="#{currency}">40\.00<\/n2:OrderTotal>))).to have_been_requested
         end
 
-        it "should send the correct urls to paypal" do
-          get "/cart/transactions/new/paypal"
-          expect(stub.with(body: %r(<n2:ReturnURL>#{base_url}/cart/transactions/new_with_token/paypal</n2:ReturnURL>))).to have_been_requested
-          expect(stub.with(body: %r(<n2:CancelURL>#{base_url}/cart</n2:CancelURL>))).to have_been_requested
+        context "when the applications cart has a shipping address" do
+          it "should send the correct urls to paypal" do
+            get "/cart/transactions/new/paypal"
+            expect(stub.with(body: %r(<n2:ReturnURL>#{base_url}/cart/transactions/new_with_token/paypal</n2:ReturnURL>))).to have_been_requested
+            expect(stub.with(body: %r(<n2:CancelURL>#{base_url}/cart</n2:CancelURL>))).to have_been_requested
+
+          end
+
+          it "should send the shipping address to paypal" do
+            get "/cart/transactions/new/paypal"
+            expect(stub.with(body: /<n2:ShipToAddress>.*<\/n2:ShipToAddress>/m)).to have_been_requested
+            expect(stub.with(body: %r(<n2:Name>first middle last</n2:Name>))).to have_been_requested
+            expect(stub.with(body: %r(<n2:Street1>shipping address 1</n2:Street1>))).to have_been_requested
+            expect(stub.with(body: %r(<n2:Street2>shipping address 2</n2:Street2>))).to have_been_requested
+            expect(stub.with(body: %r(<n2:CityName>shipping address city</n2:CityName>))).to have_been_requested
+            expect(stub.with(body: %r(<n2:StateOrProvince>shipping address state</n2:StateOrProvince>))).to have_been_requested
+            expect(stub.with(body: %r(<n2:Country>GB</n2:Country>))).to have_been_requested
+            expect(stub.with(body: %r(<n2:PostalCode>shipping postcode</n2:PostalCode>))).to have_been_requested
+          end
+
+          it "should override the address with ours" do
+            get "/cart/transactions/new/paypal"
+            expect(stub.with(body: %r(<n2:AddressOverride>1</n2:AddressOverride>))).to have_been_requested
+          end
 
         end
 
-        it "should send the shipping address to paypal" do
-          get "/cart/transactions/new/paypal"
-          expect(stub.with(body: /<n2:ShipToAddress>.*<\/n2:ShipToAddress>/m)).to have_been_requested
-          expect(stub.with(body: %r(<n2:Name>first middle last</n2:Name>))).to have_been_requested
-          expect(stub.with(body: %r(<n2:Street1>shipping address 1</n2:Street1>))).to have_been_requested
-          expect(stub.with(body: %r(<n2:Street2>shipping address 2</n2:Street2>))).to have_been_requested
-          expect(stub.with(body: %r(<n2:CityName>shipping address city</n2:CityName>))).to have_been_requested
-          expect(stub.with(body: %r(<n2:StateOrProvince>shipping address state</n2:StateOrProvince>))).to have_been_requested
-          expect(stub.with(body: %r(<n2:Country>GB</n2:Country>))).to have_been_requested
-          expect(stub.with(body: %r(<n2:PostalCode>shipping postcode</n2:PostalCode>))).to have_been_requested
-        end
+        context "when the application cart does not have a shipping address", env_vars: {"NO_SHIPPING_ADDRESS" => "1"} do
+          it "should send the correct urls to paypal" do
+            get "/cart/transactions/new/paypal"
+            expect(stub.with(body: %r(<n2:ReturnURL>#{base_url}/cart/transactions/new_with_token/paypal</n2:ReturnURL>))).to have_been_requested
+            expect(stub.with(body: %r(<n2:CancelURL>#{base_url}/cart</n2:CancelURL>))).to have_been_requested
 
-        it "should override the address with ours" do
-          get "/cart/transactions/new/paypal"
-          expect(stub.with(body: %r(<n2:AddressOverride>1</n2:AddressOverride>))).to have_been_requested
+          end
+
+          it "should not send the shipping address to paypal" do
+            get "/cart/transactions/new/paypal"
+            expect(stub.with(body: /<n2:ShipToAddress>.*<\/n2:ShipToAddress>/m)).not_to have_been_requested
+            expect(stub.with(body: %r(<n2:Name>first middle last</n2:Name>))).not_to have_been_requested
+            expect(stub.with(body: %r(<n2:Street1>shipping address 1</n2:Street1>))).not_to have_been_requested
+            expect(stub.with(body: %r(<n2:Street2>shipping address 2</n2:Street2>))).not_to have_been_requested
+            expect(stub.with(body: %r(<n2:CityName>shipping address city</n2:CityName>))).not_to have_been_requested
+            expect(stub.with(body: %r(<n2:StateOrProvince>shipping address state</n2:StateOrProvince>))).not_to have_been_requested
+            expect(stub.with(body: %r(<n2:Country>GB</n2:Country>))).not_to have_been_requested
+            expect(stub.with(body: %r(<n2:PostalCode>shipping postcode</n2:PostalCode>))).not_to have_been_requested
+          end
+
+          it "should override the address with ours" do
+            get "/cart/transactions/new/paypal"
+            expect(stub.with(body: %r(<n2:AddressOverride>1</n2:AddressOverride>))).not_to have_been_requested
+          end
+
         end
 
         it "should send the line items to paypal" do

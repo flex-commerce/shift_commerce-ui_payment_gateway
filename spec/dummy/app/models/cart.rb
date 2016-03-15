@@ -12,6 +12,7 @@ class Cart
   end
 
   def shipping_address
+    return nil if ENV['NO_SHIPPING_ADDRESS']
     @shipping_address ||= Address.new first_name: "first",
                                       middle_names: "middle",
                                       last_name: "last",
