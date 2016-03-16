@@ -11,7 +11,7 @@ module ShiftCommerce
     autoload :PaypalExpressEngine, File.expand_path("./ui_payment_gateway/engines/paypal_express_engine", __dir__)
     autoload :Exceptions, File.expand_path("./ui_payment_gateway/exceptions", __dir__)
     module Paypal
-      autoload :PopulateCart, File.expand_path("../../app/services/paypal/populate_cart", __dir__)
+      autoload :ConvertAddress, File.expand_path("../../app/services/paypal/convert_address", __dir__)
     end
   end
 end

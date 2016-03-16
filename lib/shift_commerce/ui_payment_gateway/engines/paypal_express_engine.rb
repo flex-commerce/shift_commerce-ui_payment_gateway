@@ -3,7 +3,7 @@ module ShiftCommerce
   module UiPaymentGateway
     DEFAULT_DESCRIPTION = "THE DEFAULT DESCRIPTION - TO BE CHANGED"
     class PaypalExpressEngine
-      def initialize(cart:, gateway_class: ::ActiveMerchant::Billing::PaypalExpressGateway, config: Config.instance, request:, success_url:, cancel_url:, populate_cart_from_paypal_service: ::ShiftCommerce::UiPaymentGateway::Paypal::PopulateCart)
+      def initialize(cart:, gateway_class: ::ActiveMerchant::Billing::PaypalExpressGateway, config: Config.instance, request:, success_url:, cancel_url:, convert_address_service: ::ShiftCommerce::UiPaymentGateway::Paypal::ConvertAddress)
         self.cart = cart
         self.request = request
         self.gateway = gateway_class.new({login: config.paypal_login, password: config.paypal_password, signature: config.paypal_signature})
@@ -11,6 +11,7 @@ module ShiftCommerce
         self.success_url = success_url
         self.cancel_url = cancel_url
         self.cart_has_addresses = cart.shipping_address.present?
+        self.convert_address_service = convert_address_service
       end
 
       # @param [Order] cart The cart that the payment is for
@@ -63,12 +64,20 @@ module ShiftCommerce
       # @raise [ShiftCommerce::UiPaymentGateway::Exceptions::PaymentNotAccepted] Raised if paypal errors for any reason - the response is available as an attribute on the exception
       def process_token(token:, cart:, payer_id:)
         response = gateway.purchase(convert_amount(cart.total), token: token, payer_id: payer_id, currency: ::ShiftCommerce::UiPaymentGateway::DEFAULT_CURRENCY)
-        if get_details_from_paypal?
-          details = gateway.details_for(token)
-          populate_cart_from_paypal_service.call(payment_details: details.params["PaymentDetails"], payer_details: details.params["PayerInfo"] , cart: cart)
-        end
         raise Exceptions::PaymentNotAccepted.new(response) unless response.success?
         return {auth_id: response.authorization, token: response.token}
+      end
+
+      def get_shipping_address_attributes(token:)
+        #@TODO Can this be cached for the token
+        details = gateway.details_for(token)
+        convert_address_service.call(details.params["PaymentDetails"]["ShipToAddress"])
+      end
+
+      def get_billing_address_attributes(token:)
+        #@TODO Can this be cached for the token
+        details = gateway.details_for(token)
+        convert_address_service.call(details.params["PayerInfo"]["Address"])
       end
 
       private
@@ -82,7 +91,7 @@ module ShiftCommerce
         (amount * 100).round
       end
 
-      attr_accessor :cart, :gateway, :request, :success_url, :cancel_url, :cart_has_addresses
+      attr_accessor :cart, :gateway, :request, :success_url, :cancel_url, :cart_has_addresses, :convert_address_service
     end
   end
 end

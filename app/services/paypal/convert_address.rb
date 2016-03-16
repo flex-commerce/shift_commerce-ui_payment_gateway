@@ -10,7 +10,7 @@ module ShiftCommerce
       #         "TaxTotal" => "0.00",
       #         "OrderDescription" => "THE DEFAULT DESCRIPTION - TO BE CHANGED",
       #         "ShipToAddress" => {
-      #             "Name" => "Gary Taylor",
+      #             "Name" => "First Middle1 Middle2 Last",
       #             "Street1" => "Addr 1",
       #             "Street2" => nil,
       #             "CityName" => "Town",
@@ -53,7 +53,7 @@ module ShiftCommerce
       #         "PayerCountry" => "GB",
       #         "PayerBusiness" => nil,
       #         "Address" => {
-      #             "Name" => "Gary Taylor",
+      #             "Name" => "First Middle1 Middle2 Last",
       #             "Street1" => "Addr 1",
       #             "Street2" => nil,
       #             "CityName" => "Town",
@@ -68,39 +68,45 @@ module ShiftCommerce
       #   }
 
 
-      class PopulateCart
+      class ConvertAddress
         def self.call(*args)
           new.call(*args)
         end
 
-        def call(payment_details:, payer_details:, cart:)
-          set_shipping_address(payment_details, cart)
-          set_billing_address(payer_details, cart)
+        def call(address)
+          to_address_attrs(address)
         end
 
         private
 
-        def set_shipping_address(payment_details, cart)
-          cart.shipping_address_id = address_model.create(to_address_attrs(payment_details["ShipToAddress"]))
-        end
-
-        def set_billing_address(payer_details, cart)
-          cart.billing_address_id = address_model.create(to_address_attrs(payer_details["Address"]))
-        end
-
         def to_address_attrs(paypal_address)
-          paypal_address.inject({}) do |acc, (field, value)|
+          mapping = direct_mapping
+          name_words = paypal_address["Name"].split(" ")
+          attrs = {
+            "first_name" => name_words.shift,
+            "last_name" => name_words.pop || "",
+            "middle_names" => name_words.join(" ")
+          }
+          paypal_address.inject(attrs) do |acc, (field, value)|
             if mapping.key?(field)
-              acc.merge(mapping[field] => value)
+              acc.merge(mapping[field] => value || "")
             else
               acc
             end
           end
         end
 
-        def address_model
-          ::ShiftCommerce::UiPaymentGateway::Config.instance.address_model.constantize
+        def direct_mapping
+          {
+            "Street1" => "address_line_1",
+            "Street2" => "address_line_2",
+            "CityName" => "city",
+            "StateOrProvince" => "state",
+            "Country" => "country",
+            "PostalCode" => "postcode"
+          }
         end
+
       end
     end
   end

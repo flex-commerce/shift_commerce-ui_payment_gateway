@@ -1,0 +1,174 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api-3t.sandbox.paypal.com/2.0/
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?><env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><env:Header><RequesterCredentials xmlns="urn:ebay:api:PayPalAPI" xmlns:n1="urn:ebay:apis:eBLBaseComponents" env:mustUnderstand="0"><n1:Credentials><n1:Username>gary.taylor_api1.flexcommerce.com</n1:Username><n1:Password>CXLBLQM64B6AXULK</n1:Password><n1:Subject/><n1:Signature>ALYGfT1J93GLRZF-3Y94ce-Z4UZgAsHIQqBoD5p.DabVWhLPVXkcHJw0</n1:Signature></n1:Credentials></RequesterCredentials></env:Header><env:Body><SetExpressCheckoutReq xmlns="urn:ebay:api:PayPalAPI">
+          <SetExpressCheckoutRequest xmlns:n2="urn:ebay:apis:eBLBaseComponents">
+            <n2:Version>124</n2:Version>
+            <n2:SetExpressCheckoutRequestDetails>
+              <n2:ReturnURL>http://www.example.com/cart/transactions/new_with_token/paypal</n2:ReturnURL>
+              <n2:CancelURL>http://www.example.com/cart</n2:CancelURL>
+              <n2:ReqBillingAddress>0</n2:ReqBillingAddress>
+              <n2:NoShipping>0</n2:NoShipping>
+              <n2:AddressOverride>1</n2:AddressOverride>
+              <n2:PaymentDetails>
+                <n2:OrderTotal currencyID="GBP">40.00</n2:OrderTotal>
+                <n2:OrderDescription>THE DEFAULT DESCRIPTION - TO BE CHANGED</n2:OrderDescription>
+                <n2:ButtonSource>ActiveMerchant</n2:ButtonSource>
+                <n2:ShipToAddress>
+                  <n2:Name>first middle last</n2:Name>
+                  <n2:Street1>shipping address 1</n2:Street1>
+                  <n2:Street2>shipping address 2</n2:Street2>
+                  <n2:CityName>shipping address city</n2:CityName>
+                  <n2:StateOrProvince>shipping address state</n2:StateOrProvince>
+                  <n2:Country>GB</n2:Country>
+                  <n2:PostalCode>shipping postcode</n2:PostalCode>
+                </n2:ShipToAddress>
+                <n2:PaymentDetailsItem>
+                  <n2:Name>Line item 0 name</n2:Name>
+                  <n2:Number>Number</n2:Number>
+                  <n2:Quantity>2</n2:Quantity>
+                  <n2:Amount currencyID="GBP">2.00</n2:Amount>
+                  <n2:Description>Line item 0 name</n2:Description>
+                  <n2:ItemURL>http://www.google.com</n2:ItemURL>
+                </n2:PaymentDetailsItem>
+                <n2:PaymentDetailsItem>
+                  <n2:Name>Line item 1 name</n2:Name>
+                  <n2:Number>Number</n2:Number>
+                  <n2:Quantity>2</n2:Quantity>
+                  <n2:Amount currencyID="GBP">2.00</n2:Amount>
+                  <n2:Description>Line item 1 name</n2:Description>
+                  <n2:ItemURL>http://www.google.com</n2:ItemURL>
+                </n2:PaymentDetailsItem>
+                <n2:PaymentDetailsItem>
+                  <n2:Name>Line item 2 name</n2:Name>
+                  <n2:Number>Number</n2:Number>
+                  <n2:Quantity>2</n2:Quantity>
+                  <n2:Amount currencyID="GBP">2.00</n2:Amount>
+                  <n2:Description>Line item 2 name</n2:Description>
+                  <n2:ItemURL>http://www.google.com</n2:ItemURL>
+                </n2:PaymentDetailsItem>
+                <n2:PaymentDetailsItem>
+                  <n2:Name>Line item 3 name</n2:Name>
+                  <n2:Number>Number</n2:Number>
+                  <n2:Quantity>2</n2:Quantity>
+                  <n2:Amount currencyID="GBP">2.00</n2:Amount>
+                  <n2:Description>Line item 3 name</n2:Description>
+                  <n2:ItemURL>http://www.google.com</n2:ItemURL>
+                </n2:PaymentDetailsItem>
+                <n2:PaymentDetailsItem>
+                  <n2:Name>Line item 4 name</n2:Name>
+                  <n2:Number>Number</n2:Number>
+                  <n2:Quantity>2</n2:Quantity>
+                  <n2:Amount currencyID="GBP">2.00</n2:Amount>
+                  <n2:Description>Line item 4 name</n2:Description>
+                  <n2:ItemURL>http://www.google.com</n2:ItemURL>
+                </n2:PaymentDetailsItem>
+                <n2:PaymentDetailsItem>
+                  <n2:Name>Line item 5 name</n2:Name>
+                  <n2:Number>Number</n2:Number>
+                  <n2:Quantity>2</n2:Quantity>
+                  <n2:Amount currencyID="GBP">2.00</n2:Amount>
+                  <n2:Description>Line item 5 name</n2:Description>
+                  <n2:ItemURL>http://www.google.com</n2:ItemURL>
+                </n2:PaymentDetailsItem>
+                <n2:PaymentDetailsItem>
+                  <n2:Name>Line item 6 name</n2:Name>
+                  <n2:Number>Number</n2:Number>
+                  <n2:Quantity>2</n2:Quantity>
+                  <n2:Amount currencyID="GBP">2.00</n2:Amount>
+                  <n2:Description>Line item 6 name</n2:Description>
+                  <n2:ItemURL>http://www.google.com</n2:ItemURL>
+                </n2:PaymentDetailsItem>
+                <n2:PaymentDetailsItem>
+                  <n2:Name>Line item 7 name</n2:Name>
+                  <n2:Number>Number</n2:Number>
+                  <n2:Quantity>2</n2:Quantity>
+                  <n2:Amount currencyID="GBP">2.00</n2:Amount>
+                  <n2:Description>Line item 7 name</n2:Description>
+                  <n2:ItemURL>http://www.google.com</n2:ItemURL>
+                </n2:PaymentDetailsItem>
+                <n2:PaymentDetailsItem>
+                  <n2:Name>Line item 8 name</n2:Name>
+                  <n2:Number>Number</n2:Number>
+                  <n2:Quantity>2</n2:Quantity>
+                  <n2:Amount currencyID="GBP">2.00</n2:Amount>
+                  <n2:Description>Line item 8 name</n2:Description>
+                  <n2:ItemURL>http://www.google.com</n2:ItemURL>
+                </n2:PaymentDetailsItem>
+                <n2:PaymentDetailsItem>
+                  <n2:Name>Line item 9 name</n2:Name>
+                  <n2:Number>Number</n2:Number>
+                  <n2:Quantity>2</n2:Quantity>
+                  <n2:Amount currencyID="GBP">2.00</n2:Amount>
+                  <n2:Description>Line item 9 name</n2:Description>
+                  <n2:ItemURL>http://www.google.com</n2:ItemURL>
+                </n2:PaymentDetailsItem>
+                <n2:PaymentAction>Sale</n2:PaymentAction>
+              </n2:PaymentDetails>
+            </n2:SetExpressCheckoutRequestDetails>
+          </SetExpressCheckoutRequest>
+        </SetExpressCheckoutReq>
+        </env:Body></env:Envelope>
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 16 Mar 2016 12:02:19 GMT
+      Server:
+      - Apache
+      X-Paypal-Operation-Name:
+      - SetExpressCheckout
+      X-Paypal-Api-Rc:
+      - ''
+      Connection:
+      - close
+      Http-X-Pp-Az-Locator:
+      - sandbox.slc
+      Paypal-Debug-Id:
+      - 5b5f96d4d2051
+      Set-Cookie:
+      - X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
+      - X-PP-SILOVER=name%3DSANDBOX3.API.1%26silo_version%3D1880%26app%3Dappdispatcher_apit%26TIME%3D1263266134;
+        domain=.paypal.com; path=/; Secure; HttpOnly
+      Content-Length:
+      - '1791'
+      Content-Type:
+      - text/xml; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+        xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:cc="urn:ebay:apis:CoreComponentTypes" xmlns:wsu="http://schemas.xmlsoap.org/ws/2002/07/utility"
+        xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+        xmlns:wsse="http://schemas.xmlsoap.org/ws/2002/12/secext" xmlns:ed="urn:ebay:apis:EnhancedDataTypes"
+        xmlns:ebl="urn:ebay:apis:eBLBaseComponents" xmlns:ns="urn:ebay:api:PayPalAPI"><SOAP-ENV:Header><Security
+        xmlns="http://schemas.xmlsoap.org/ws/2002/12/secext" xsi:type="wsse:SecurityType"></Security><RequesterCredentials
+        xmlns="urn:ebay:api:PayPalAPI" xsi:type="ebl:CustomSecurityHeaderType"><Credentials
+        xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:UserIdPasswordType"><Username
+        xsi:type="xs:string"></Username><Password xsi:type="xs:string"></Password><Signature
+        xsi:type="xs:string"></Signature><Subject xsi:type="xs:string"></Subject></Credentials></RequesterCredentials></SOAP-ENV:Header><SOAP-ENV:Body
+        id="_0"><SetExpressCheckoutResponse xmlns="urn:ebay:api:PayPalAPI"><Timestamp
+        xmlns="urn:ebay:apis:eBLBaseComponents">2016-03-16T12:02:20Z</Timestamp><Ack
+        xmlns="urn:ebay:apis:eBLBaseComponents">Success</Ack><CorrelationID xmlns="urn:ebay:apis:eBLBaseComponents">5b5f96d4d2051</CorrelationID><Version
+        xmlns="urn:ebay:apis:eBLBaseComponents">124</Version><Build xmlns="urn:ebay:apis:eBLBaseComponents">18316154</Build><Token
+        xsi:type="ebl:ExpressCheckoutTokenType">EC-6SN63954S0106743C</Token></SetExpressCheckoutResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+    http_version: 
+  recorded_at: Wed, 16 Mar 2016 12:02:20 GMT
+recorded_with: VCR 3.0.0

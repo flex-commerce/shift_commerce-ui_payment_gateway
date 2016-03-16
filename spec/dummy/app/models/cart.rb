@@ -11,6 +11,13 @@ class Cart
     end
   end
 
+  def shipping_address_id=(value)
+    #stub
+  end
+
+  def billing_address_id=(value)
+    #stub
+  end
   def shipping_address
     return nil if ENV['NO_SHIPPING_ADDRESS']
     @shipping_address ||= Address.new first_name: "first",
@@ -31,6 +38,10 @@ class Cart
 
   def total
     line_items.map(&:total).sum
+  end
+
+  def save!
+    true
   end
 
   private
