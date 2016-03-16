@@ -11,9 +11,13 @@ class Order
     end
   end
 
-  def self.create(attrs={})
-    new(default_attributes.merge(attrs))
+  class << self
+    def create(attrs={})
+      new(default_attributes.merge(attrs))
+    end
+    alias_method :create!, :create
   end
+
 
   def shipping_address
     @shipping_address ||= Address.new name: "shipping name",

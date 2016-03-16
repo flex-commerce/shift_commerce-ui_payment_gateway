@@ -7,6 +7,10 @@ module ShiftCommerce
         ::ShiftCommerce::UiPaymentGateway::Config.instance.order_model.constantize
       end
 
+      def address_model
+        ::ShiftCommerce::UiPaymentGateway::Config.instance.address_model.constantize
+      end
+
       def new_with_gateway
         redirect_to payment_service.setup_payment(cart: cart)
       end
@@ -25,7 +29,12 @@ module ShiftCommerce
           payment_gateway_reference: "paypal_express",
           status: "success",
         }
-        order = order_model.create(cart_id: cart.id, transaction_attributes: txn, order_ip_address: request.ip )
+        if cart.shipping_address.nil?
+          cart.shipping_address_id = address_model.create!(payment_service.get_shipping_address_attributes(token: params[:token])).id
+          cart.billing_address_id = address_model.create!(payment_service.get_billing_address_attributes(token: params[:token])).id
+          cart.save!
+        end
+        order = order_model.create!(cart_id: cart.id, transaction_attributes: txn, order_ip_address: request.ip )
         on_order_created(order)
       end
 

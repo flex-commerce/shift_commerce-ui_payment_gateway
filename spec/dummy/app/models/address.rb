@@ -5,6 +5,10 @@ class Address
     new(default_attributes)
   end
 
+  def self.create!(attrs)
+    #stub for testing against
+  end
+
   def initialize(attrs)
     attrs.each do |attr, value|
       send("#{attr}=", value)
