@@ -129,7 +129,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 16 Mar 2016 12:02:19 GMT
+      - Thu, 17 Mar 2016 15:19:58 GMT
       Server:
       - Apache
       X-Paypal-Operation-Name:
@@ -141,10 +141,10 @@ http_interactions:
       Http-X-Pp-Az-Locator:
       - sandbox.slc
       Paypal-Debug-Id:
-      - 5b5f96d4d2051
+      - f2e96bd0e0867
       Set-Cookie:
       - X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
-      - X-PP-SILOVER=name%3DSANDBOX3.API.1%26silo_version%3D1880%26app%3Dappdispatcher_apit%26TIME%3D1263266134;
+      - X-PP-SILOVER=name%3DSANDBOX3.API.1%26silo_version%3D1880%26app%3Dappdispatcher_apit%26TIME%3D516680278;
         domain=.paypal.com; path=/; Secure; HttpOnly
       Content-Length:
       - '1791'
@@ -165,10 +165,10 @@ http_interactions:
         xsi:type="xs:string"></Username><Password xsi:type="xs:string"></Password><Signature
         xsi:type="xs:string"></Signature><Subject xsi:type="xs:string"></Subject></Credentials></RequesterCredentials></SOAP-ENV:Header><SOAP-ENV:Body
         id="_0"><SetExpressCheckoutResponse xmlns="urn:ebay:api:PayPalAPI"><Timestamp
-        xmlns="urn:ebay:apis:eBLBaseComponents">2016-03-16T12:02:20Z</Timestamp><Ack
-        xmlns="urn:ebay:apis:eBLBaseComponents">Success</Ack><CorrelationID xmlns="urn:ebay:apis:eBLBaseComponents">5b5f96d4d2051</CorrelationID><Version
+        xmlns="urn:ebay:apis:eBLBaseComponents">2016-03-17T15:19:59Z</Timestamp><Ack
+        xmlns="urn:ebay:apis:eBLBaseComponents">Success</Ack><CorrelationID xmlns="urn:ebay:apis:eBLBaseComponents">f2e96bd0e0867</CorrelationID><Version
         xmlns="urn:ebay:apis:eBLBaseComponents">124</Version><Build xmlns="urn:ebay:apis:eBLBaseComponents">18316154</Build><Token
-        xsi:type="ebl:ExpressCheckoutTokenType">EC-6SN63954S0106743C</Token></SetExpressCheckoutResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+        xsi:type="ebl:ExpressCheckoutTokenType">EC-82C38571K2350841E</Token></SetExpressCheckoutResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
     http_version: 
-  recorded_at: Wed, 16 Mar 2016 12:02:20 GMT
+  recorded_at: Thu, 17 Mar 2016 15:19:59 GMT
 recorded_with: VCR 3.0.0
