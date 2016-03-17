@@ -29,14 +29,17 @@ module ShiftCommerce
           payment_gateway_reference: "paypal_express",
           status: "success",
         }
+        cart_needs_save = false
         if cart.shipping_address.nil?
           cart.shipping_address_id = address_model.create!(payment_service.get_shipping_address_attributes(token: params[:token])).id
           cart.billing_address_id = address_model.create!(payment_service.get_billing_address_attributes(token: params[:token])).id
-          cart.save!
+          cart_needs_save = true
         end
-        if cart.email.nil?
+        unless cart.email.present?
           cart.email = payment_service.get_email_address(token: params[:token])
+          cart_needs_save = true
         end
+        cart.save! if cart_needs_save
         order = order_model.create!(cart_id: cart.id, transaction_attributes: txn, order_ip_address: request.ip )
         on_order_created(order)
       end
