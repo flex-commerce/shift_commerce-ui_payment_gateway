@@ -1,9 +1,8 @@
 PATH
   remote: .
   specs:
-    shift_commerce-ui_payment_gateway (0.0.2)
+    shift_commerce-ui_payment_gateway (0.0.4)
       activemerchant (~> 1.54)
-      rails (~> 4.2.5)
 
 GEM
   remote: https://rubygems.org/
@@ -197,6 +196,7 @@ DEPENDENCIES
   chromedriver-helper (>= 0.0.8)
   climate_control
   factory_girl_rails (~> 4.5)
+  rails (~> 4.2.5)
   rspec-rails (~> 3.3)
   selenium-webdriver
   shift_commerce-ui_payment_gateway!

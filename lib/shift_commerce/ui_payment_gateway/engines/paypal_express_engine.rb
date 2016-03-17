@@ -28,6 +28,17 @@ module ShiftCommerce
               url: "http://www.google.com"
           }
         end
+        if cart.shipping_total.present? && cart.shipping_total > 0
+          items <<  {
+            name: "Shipping",
+            number: "Shipping",
+            quantity: 1,
+            amount: convert_amount(cart.shipping_total),
+            description: "Shipping charges",
+            url: "http://www.google.com"
+          }
+        end
+        "Shipping #{cart.shipping_total}" unless cart.shipping_total.nil? || cart.shipping_total == 0.0
         paypal_params = {ip: request.remote_ip,
                          return_url: success_url,
                          cancel_return_url: cancel_url,

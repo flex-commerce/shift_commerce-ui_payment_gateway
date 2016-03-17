@@ -40,6 +40,10 @@ class Cart
     line_items.map(&:total).sum
   end
 
+  def shipping_total
+    0.0
+  end
+
   def save!
     true
   end
