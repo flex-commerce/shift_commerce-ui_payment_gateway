@@ -162,17 +162,8 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
           EOS
         end
         let!(:stub) { stub_request(:post, /https:\/\/.*\.sandbox\.paypal\.com/).to_return(body: dummy_paypal_response) }
-        context "when the application cart has a shipping address" do
-          it "should complete the transaction with paypal" do
-            get "/cart/transactions/new_with_token/paypal?token=SOMERANDOMTOKEN&PayerID=SOMERANDOMPAYERID"
-            expect(stub.with(body: %r(<n2:Token>SOMERANDOMTOKEN</n2:Token>))).to have_been_requested
-            expect(stub.with(body: %r(<n2:PayerID>SOMERANDOMPAYERID</n2:PayerID>))).to have_been_requested
-            expect(response).to redirect_to(/orders\/[^\/]*$/)
-          end
-        end
-        context "when the application cart does not have a shipping address", env_vars: {"NO_SHIPPING_ADDRESS" => "1"} do
-          let(:dummy_paypal_details_response) do
-            <<-EOS
+        let(:dummy_paypal_details_response) do
+          <<-EOS
 <?xml version="1.0" encoding="UTF-8"?>
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
                    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
@@ -286,11 +277,20 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
     </GetExpressCheckoutDetailsResponse>
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
-            EOS
+          EOS
+        end
+        let!(:paypal_details_stub) do
+          stub_request(:post, /https:\/\/.*\.sandbox\.paypal\.com/).with(body: /GetExpressCheckoutDetailsReq/).to_return(body: dummy_paypal_details_response)
+        end
+        context "when the application cart has a shipping address" do
+          it "should complete the transaction with paypal" do
+            get "/cart/transactions/new_with_token/paypal?token=SOMERANDOMTOKEN&PayerID=SOMERANDOMPAYERID"
+            expect(stub.with(body: %r(<n2:Token>SOMERANDOMTOKEN</n2:Token>))).to have_been_requested
+            expect(stub.with(body: %r(<n2:PayerID>SOMERANDOMPAYERID</n2:PayerID>))).to have_been_requested
+            expect(response).to redirect_to(/orders\/[^\/]*$/)
           end
-          let!(:paypal_details_stub) do
-            stub_request(:post, /https:\/\/.*\.sandbox\.paypal\.com/).with(body: /GetExpressCheckoutDetailsReq/).to_return(body: dummy_paypal_details_response)
-          end
+        end
+        context "when the application cart does not have a shipping address", env_vars: {"NO_SHIPPING_ADDRESS" => "1"} do
           it "should complete the transaction with paypal" do
             create_shipping_args = {
               "first_name" => "Shipping",

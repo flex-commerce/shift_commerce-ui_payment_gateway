@@ -34,6 +34,9 @@ module ShiftCommerce
           cart.billing_address_id = address_model.create!(payment_service.get_billing_address_attributes(token: params[:token])).id
           cart.save!
         end
+        if cart.email.nil?
+          cart.email = payment_service.get_email_address(token: params[:token])
+        end
         order = order_model.create!(cart_id: cart.id, transaction_attributes: txn, order_ip_address: request.ip )
         on_order_created(order)
       end

@@ -91,6 +91,12 @@ module ShiftCommerce
         convert_address_service.call(details.params["PayerInfo"]["Address"])
       end
 
+      def get_email_address(token:)
+        #@TODO Can this be cached for the token
+        details = gateway.details_for(token)
+        details.params["PayerInfo"]["Payer"]
+      end
+
       private
 
       def get_details_from_paypal?

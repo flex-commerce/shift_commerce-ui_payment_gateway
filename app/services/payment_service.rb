@@ -6,7 +6,7 @@ module ShiftCommerce
         self.controller = controller
       end
 
-      delegate :setup_payment, :process_token, :get_shipping_address_attributes, :get_billing_address_attributes, to: :engine
+      delegate :setup_payment, :process_token, :get_shipping_address_attributes, :get_billing_address_attributes, :get_email_address, to: :engine
 
       private
 

@@ -44,6 +44,14 @@ class Cart
     0.0
   end
 
+  def email
+    nil
+  end
+
+  def email=(value)
+
+  end
+
   def save!
     true
   end
