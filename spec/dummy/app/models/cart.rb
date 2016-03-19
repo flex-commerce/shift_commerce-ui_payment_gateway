@@ -31,6 +31,9 @@ class Cart
                                       postcode: "shipping postcode",
                                       country: "GB"
   end
+  def shipping_method_id
+    nil
+  end
 
   def line_items
     @line_items ||= build_line_items

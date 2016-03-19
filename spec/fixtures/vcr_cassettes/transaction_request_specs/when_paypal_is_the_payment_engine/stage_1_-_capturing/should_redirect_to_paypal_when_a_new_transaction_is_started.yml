@@ -12,9 +12,11 @@ http_interactions:
             <n2:SetExpressCheckoutRequestDetails>
               <n2:ReturnURL>http://www.example.com/cart/transactions/new_with_token/paypal</n2:ReturnURL>
               <n2:CancelURL>http://www.example.com/cart</n2:CancelURL>
+              <n2:MaxAmount currencyID="GBP">80.00</n2:MaxAmount>
               <n2:ReqBillingAddress>0</n2:ReqBillingAddress>
               <n2:NoShipping>0</n2:NoShipping>
               <n2:AddressOverride>1</n2:AddressOverride>
+              <n2:CallbackURL>http://api.root.com/paypal/callbacks</n2:CallbackURL>
               <n2:PaymentDetails>
                 <n2:OrderTotal currencyID="GBP">40.00</n2:OrderTotal>
                 <n2:OrderDescription>THE DEFAULT DESCRIPTION - TO BE CHANGED</n2:OrderDescription>
@@ -110,6 +112,13 @@ http_interactions:
                 </n2:PaymentDetailsItem>
                 <n2:PaymentAction>Sale</n2:PaymentAction>
               </n2:PaymentDetails>
+              <n2:FlatRateShippingOptions>
+                <n2:ShippingOptionIsDefault>true</n2:ShippingOptionIsDefault>
+                <n2:ShippingOptionAmount currencyID="GBP">0.00</n2:ShippingOptionAmount>
+                <n2:ShippingOptionName>free</n2:ShippingOptionName>
+              </n2:FlatRateShippingOptions>
+              <n2:CallbackTimeout>6</n2:CallbackTimeout>
+              <n2:CallbackVersion>61</n2:CallbackVersion>
             </n2:SetExpressCheckoutRequestDetails>
           </SetExpressCheckoutRequest>
         </SetExpressCheckoutReq>
@@ -129,7 +138,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 17 Mar 2016 15:19:58 GMT
+      - Sat, 19 Mar 2016 19:36:45 GMT
       Server:
       - Apache
       X-Paypal-Operation-Name:
@@ -141,10 +150,10 @@ http_interactions:
       Http-X-Pp-Az-Locator:
       - sandbox.slc
       Paypal-Debug-Id:
-      - f2e96bd0e0867
+      - 72e7c41e51b2c
       Set-Cookie:
       - X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
-      - X-PP-SILOVER=name%3DSANDBOX3.API.1%26silo_version%3D1880%26app%3Dappdispatcher_apit%26TIME%3D516680278;
+      - X-PP-SILOVER=name%3DSANDBOX3.API.1%26silo_version%3D1880%26app%3Dappdispatcher_apit%26TIME%3D1303047510;
         domain=.paypal.com; path=/; Secure; HttpOnly
       Content-Length:
       - '1791'
@@ -165,10 +174,10 @@ http_interactions:
         xsi:type="xs:string"></Username><Password xsi:type="xs:string"></Password><Signature
         xsi:type="xs:string"></Signature><Subject xsi:type="xs:string"></Subject></Credentials></RequesterCredentials></SOAP-ENV:Header><SOAP-ENV:Body
         id="_0"><SetExpressCheckoutResponse xmlns="urn:ebay:api:PayPalAPI"><Timestamp
-        xmlns="urn:ebay:apis:eBLBaseComponents">2016-03-17T15:19:59Z</Timestamp><Ack
-        xmlns="urn:ebay:apis:eBLBaseComponents">Success</Ack><CorrelationID xmlns="urn:ebay:apis:eBLBaseComponents">f2e96bd0e0867</CorrelationID><Version
+        xmlns="urn:ebay:apis:eBLBaseComponents">2016-03-19T19:36:46Z</Timestamp><Ack
+        xmlns="urn:ebay:apis:eBLBaseComponents">Success</Ack><CorrelationID xmlns="urn:ebay:apis:eBLBaseComponents">72e7c41e51b2c</CorrelationID><Version
         xmlns="urn:ebay:apis:eBLBaseComponents">124</Version><Build xmlns="urn:ebay:apis:eBLBaseComponents">18316154</Build><Token
-        xsi:type="ebl:ExpressCheckoutTokenType">EC-82C38571K2350841E</Token></SetExpressCheckoutResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+        xsi:type="ebl:ExpressCheckoutTokenType">EC-92P9029619303113D</Token></SetExpressCheckoutResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
     http_version: 
-  recorded_at: Thu, 17 Mar 2016 15:19:59 GMT
+  recorded_at: Sat, 19 Mar 2016 19:36:46 GMT
 recorded_with: VCR 3.0.0

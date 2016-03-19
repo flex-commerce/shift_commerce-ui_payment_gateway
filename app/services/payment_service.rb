@@ -1,8 +1,8 @@
 module ShiftCommerce
   module UiPaymentGateway
     class PaymentService
-      def initialize(engine: :paypal, controller: :transactions, cart:, request:, success_url:, cancel_url:)
-        self.engine = engine_for(engine).new(cart: cart, request: request, success_url: success_url, cancel_url: cancel_url)
+      def initialize(engine: :paypal, controller: :transactions, cart:, request:, success_url:, cancel_url:, **options)
+        self.engine = engine_for(engine).new(cart: cart, request: request, success_url: success_url, cancel_url: cancel_url, **options)
         self.controller = controller
       end
 

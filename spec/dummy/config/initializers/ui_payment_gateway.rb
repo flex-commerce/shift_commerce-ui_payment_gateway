@@ -6,5 +6,7 @@ module ShiftCommerce
     config.current_cart_method = :current_cart
     config.order_model = "Order"
     config.address_model = "Address"
+    config.shipping_method_model = "ShippingMethod"
+    config.api_root = "http://api.root.com"
   end
 end

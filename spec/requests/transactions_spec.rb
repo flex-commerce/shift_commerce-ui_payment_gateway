@@ -186,14 +186,14 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
   </SOAP-ENV:Header>
   <SOAP-ENV:Body id="_0">
     <GetExpressCheckoutDetailsResponse xmlns="urn:ebay:api:PayPalAPI">
-      <Timestamp xmlns="urn:ebay:apis:eBLBaseComponents">2016-03-16T09:25:15Z</Timestamp>
+      <Timestamp xmlns="urn:ebay:apis:eBLBaseComponents">2016-03-19T20:05:54Z</Timestamp>
       <Ack xmlns="urn:ebay:apis:eBLBaseComponents">Success</Ack>
-      <CorrelationID xmlns="urn:ebay:apis:eBLBaseComponents">5a8d2e95165cb</CorrelationID>
+      <CorrelationID xmlns="urn:ebay:apis:eBLBaseComponents">6e198ef33a3c1</CorrelationID>
       <Version xmlns="urn:ebay:apis:eBLBaseComponents">124</Version>
       <Build xmlns="urn:ebay:apis:eBLBaseComponents">18316154</Build>
       <GetExpressCheckoutDetailsResponseDetails xmlns="urn:ebay:apis:eBLBaseComponents"
                                                 xsi:type="ebl:GetExpressCheckoutDetailsResponseDetailsType">
-        <Token xsi:type="ebl:ExpressCheckoutTokenType">EC-2108354910690160N</Token>
+        <Token xsi:type="ebl:ExpressCheckoutTokenType">EC-3L361937EH460063H</Token>
         <PayerInfo xsi:type="ebl:PayerInfoType">
           <Payer xsi:type="ebl:EmailAddressType">ryan+paypal-buyer@flexcommerce.com</Payer>
           <PayerID xsi:type="ebl:UserIDType">KDW6SJUJWEW3E</PayerID>
@@ -220,10 +220,10 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
             <AddressStatus xsi:type="ebl:AddressStatusCodeType">Confirmed</AddressStatus>
           </Address>
         </PayerInfo>
-        <ContactPhone xsi:type="xs:string">035-287-8596</ContactPhone>
         <BillingAgreementAcceptedStatus>false</BillingAgreementAcceptedStatus>
         <PaymentDetails xsi:type="ebl:PaymentDetailsType">
-          <OrderTotal xsi:type="cc:BasicAmountType" currencyID="GBP">354.31</OrderTotal>
+          <OrderTotal xsi:type="cc:BasicAmountType" currencyID="GBP">591.28</OrderTotal>
+          <ItemTotal xsi:type="cc:BasicAmountType" currencyID="GBP">591.28</ItemTotal>
           <ShippingTotal xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</ShippingTotal>
           <HandlingTotal xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</HandlingTotal>
           <TaxTotal xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</TaxTotal>
@@ -245,6 +245,106 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
             <AddressNormalizationStatus xsi:type="ebl:AddressNormalizationStatusCodeType">None
             </AddressNormalizationStatus>
           </ShipToAddress>
+          <PaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:PaymentDetailsItemType">
+            <Name xsi:type="xs:string">Variant 2 for Product 1 - Durable Silk Bottle</Name>
+            <Number xsi:type="xs:string">Number</Number>
+            <Quantity>1</Quantity>
+            <Tax xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</Tax>
+            <Amount xsi:type="cc:BasicAmountType" currencyID="GBP">48.90</Amount>
+            <EbayItemPaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents"
+                                        xsi:type="ebl:EbayItemPaymentDetailsItemType"></EbayItemPaymentDetailsItem>
+            <Description xsi:type="xs:string">Variant 2 for Product 1 - Durable Silk Bottle</Description>
+          </PaymentDetailsItem>
+          <PaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:PaymentDetailsItemType">
+            <Name xsi:type="xs:string">Variant 2 for Product 2 - Aerodynamic Cotton Coat</Name>
+            <Number xsi:type="xs:string">Number</Number>
+            <Quantity>1</Quantity>
+            <Tax xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</Tax>
+            <Amount xsi:type="cc:BasicAmountType" currencyID="GBP">99.96</Amount>
+            <EbayItemPaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents"
+                                        xsi:type="ebl:EbayItemPaymentDetailsItemType"></EbayItemPaymentDetailsItem>
+            <Description xsi:type="xs:string">Variant 2 for Product 2 - Aerodynamic Cotton Coat</Description>
+          </PaymentDetailsItem>
+          <PaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:PaymentDetailsItemType">
+            <Name xsi:type="xs:string">Variant 2 for Product 3 - Sleek Steel Bench</Name>
+            <Number xsi:type="xs:string">Number</Number>
+            <Quantity>1</Quantity>
+            <Tax xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</Tax>
+            <Amount xsi:type="cc:BasicAmountType" currencyID="GBP">83.24</Amount>
+            <EbayItemPaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents"
+                                        xsi:type="ebl:EbayItemPaymentDetailsItemType"></EbayItemPaymentDetailsItem>
+            <Description xsi:type="xs:string">Variant 2 for Product 3 - Sleek Steel Bench</Description>
+          </PaymentDetailsItem>
+          <PaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:PaymentDetailsItemType">
+            <Name xsi:type="xs:string">Variant 2 for Product 4 - Mediocre Aluminum Hat</Name>
+            <Number xsi:type="xs:string">Number</Number>
+            <Quantity>1</Quantity>
+            <Tax xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</Tax>
+            <Amount xsi:type="cc:BasicAmountType" currencyID="GBP">48.25</Amount>
+            <EbayItemPaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents"
+                                        xsi:type="ebl:EbayItemPaymentDetailsItemType"></EbayItemPaymentDetailsItem>
+            <Description xsi:type="xs:string">Variant 2 for Product 4 - Mediocre Aluminum Hat</Description>
+          </PaymentDetailsItem>
+          <PaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:PaymentDetailsItemType">
+            <Name xsi:type="xs:string">Variant 2 for Product 5 - Aerodynamic Concrete Computer</Name>
+            <Number xsi:type="xs:string">Number</Number>
+            <Quantity>1</Quantity>
+            <Tax xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</Tax>
+            <Amount xsi:type="cc:BasicAmountType" currencyID="GBP">76.68</Amount>
+            <EbayItemPaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents"
+                                        xsi:type="ebl:EbayItemPaymentDetailsItemType"></EbayItemPaymentDetailsItem>
+            <Description xsi:type="xs:string">Variant 2 for Product 5 - Aerodynamic Concrete Computer</Description>
+          </PaymentDetailsItem>
+          <PaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:PaymentDetailsItemType">
+            <Name xsi:type="xs:string">Variant 2 for Product 6 - Enormous Copper Wallet</Name>
+            <Number xsi:type="xs:string">Number</Number>
+            <Quantity>1</Quantity>
+            <Tax xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</Tax>
+            <Amount xsi:type="cc:BasicAmountType" currencyID="GBP">8.69</Amount>
+            <EbayItemPaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents"
+                                        xsi:type="ebl:EbayItemPaymentDetailsItemType"></EbayItemPaymentDetailsItem>
+            <Description xsi:type="xs:string">Variant 2 for Product 6 - Enormous Copper Wallet</Description>
+          </PaymentDetailsItem>
+          <PaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:PaymentDetailsItemType">
+            <Name xsi:type="xs:string">Variant 2 for Product 7 - Aerodynamic Concrete Computer</Name>
+            <Number xsi:type="xs:string">Number</Number>
+            <Quantity>1</Quantity>
+            <Tax xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</Tax>
+            <Amount xsi:type="cc:BasicAmountType" currencyID="GBP">92.94</Amount>
+            <EbayItemPaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents"
+                                        xsi:type="ebl:EbayItemPaymentDetailsItemType"></EbayItemPaymentDetailsItem>
+            <Description xsi:type="xs:string">Variant 2 for Product 7 - Aerodynamic Concrete Computer</Description>
+          </PaymentDetailsItem>
+          <PaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:PaymentDetailsItemType">
+            <Name xsi:type="xs:string">Variant 2 for Product 8 - Aerodynamic Silk Car</Name>
+            <Number xsi:type="xs:string">Number</Number>
+            <Quantity>1</Quantity>
+            <Tax xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</Tax>
+            <Amount xsi:type="cc:BasicAmountType" currencyID="GBP">26.40</Amount>
+            <EbayItemPaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents"
+                                        xsi:type="ebl:EbayItemPaymentDetailsItemType"></EbayItemPaymentDetailsItem>
+            <Description xsi:type="xs:string">Variant 2 for Product 8 - Aerodynamic Silk Car</Description>
+          </PaymentDetailsItem>
+          <PaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:PaymentDetailsItemType">
+            <Name xsi:type="xs:string">Variant 2 for Product 9 - Mediocre Iron Computer</Name>
+            <Number xsi:type="xs:string">Number</Number>
+            <Quantity>1</Quantity>
+            <Tax xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</Tax>
+            <Amount xsi:type="cc:BasicAmountType" currencyID="GBP">66.77</Amount>
+            <EbayItemPaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents"
+                                        xsi:type="ebl:EbayItemPaymentDetailsItemType"></EbayItemPaymentDetailsItem>
+            <Description xsi:type="xs:string">Variant 2 for Product 9 - Mediocre Iron Computer</Description>
+          </PaymentDetailsItem>
+          <PaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:PaymentDetailsItemType">
+            <Name xsi:type="xs:string">Variant 2 for Product 10 - Heavy Duty Leather Wallet</Name>
+            <Number xsi:type="xs:string">Number</Number>
+            <Quantity>1</Quantity>
+            <Tax xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</Tax>
+            <Amount xsi:type="cc:BasicAmountType" currencyID="GBP">39.45</Amount>
+            <EbayItemPaymentDetailsItem xmlns="urn:ebay:apis:eBLBaseComponents"
+                                        xsi:type="ebl:EbayItemPaymentDetailsItemType"></EbayItemPaymentDetailsItem>
+            <Description xsi:type="xs:string">Variant 2 for Product 10 - Heavy Duty Leather Wallet</Description>
+          </PaymentDetailsItem>
           <InsuranceTotal xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</InsuranceTotal>
           <ShippingDiscount xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</ShippingDiscount>
           <InsuranceOptionOffered xsi:type="xs:string">false</InsuranceOptionOffered>
@@ -256,10 +356,15 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
           <OrderURL xsi:type="xs:string"></OrderURL>
           <SoftDescriptor xsi:type="xs:string"></SoftDescriptor>
         </PaymentDetails>
-        <CheckoutStatus xsi:type="xs:string">PaymentActionCompleted</CheckoutStatus>
-        <PaymentRequestInfo xsi:type="ebl:PaymentRequestInfoType">
-          <TransactionId xsi:type="xs:string">1HF06200YB1257708</TransactionId>
-        </PaymentRequestInfo>
+        <UserSelectedOptions xsi:type="ebl:UserSelectedOptionType">
+          <ShippingCalculationMode xsi:type="xs:string">FlatRate</ShippingCalculationMode>
+          <InsuranceOptionSelected xsi:type="xs:string">false</InsuranceOptionSelected>
+          <ShippingOptionIsDefault xsi:type="xs:string">true</ShippingOptionIsDefault>
+          <ShippingOptionAmount xsi:type="cc:BasicAmountType" currencyID="GBP">0.00</ShippingOptionAmount>
+          <ShippingOptionName xsi:type="xs:string">free</ShippingOptionName>
+        </UserSelectedOptions>
+        <CheckoutStatus xsi:type="xs:string">PaymentActionNotInitiated</CheckoutStatus>
+        <PaymentRequestInfo xsi:type="ebl:PaymentRequestInfoType"></PaymentRequestInfo>
         <PaymentInfo xsi:type="ebl:PaymentInfoType">
           <TransactionID></TransactionID>
           <ParentTransactionID xsi:type="ebl:TransactionId"></ParentTransactionID>
@@ -272,7 +377,6 @@ RSpec.describe "transaction request specs", type: :request, vcr: {record: :once}
           <ReasonCode xsi:type="ebl:ReversalReasonCodeType">none</ReasonCode>
           <SellerDetails xsi:type="ebl:SellerDetailsType"></SellerDetails>
         </PaymentInfo>
-        <CartChangeTolerance xsi:type="xs:string"></CartChangeTolerance>
       </GetExpressCheckoutDetailsResponseDetails>
     </GetExpressCheckoutDetailsResponse>
   </SOAP-ENV:Body>

@@ -62,7 +62,8 @@ module ShiftCommerce
                                                                                      request: request,
                                                                                      success_url: success_url,
                                                                                      cancel_url: cancel_url,
-                                                                                     controller: self.class.name.gsub(/Controller$/, '').underscore.to_sym
+                                                                                     controller: self.class.name.gsub(/Controller$/, '').underscore.to_sym,
+                                                                                     allow_shipping_change: true
         end
       end
 
