@@ -16,6 +16,8 @@ module ShiftCommerce
         self.callback_url = config.api_root + "/paypal/callbacks"
         self.gateway_details = {}
         self.config = config
+        self.cart_shipping_method = cart.shipping_method
+        self.shipping_method = cart_shipping_method || shipping_methods.first
       end
 
       # @param [Order] cart The cart that the payment is for
@@ -32,23 +34,16 @@ module ShiftCommerce
               url: "http://www.google.com"
           }
         end
-        if cart.shipping_total.present? && cart.shipping_total > 0
-          items <<  {
-            name: "Shipping",
-            number: "Shipping",
-            quantity: 1,
-            amount: convert_amount(cart.shipping_total),
-            description: "Shipping charges",
-            url: "http://www.google.com"
-          }
-        end
-        "Shipping #{cart.shipping_total}" unless cart.shipping_total.nil? || cart.shipping_total == 0.0
         paypal_params = {ip: request.remote_ip,
                          return_url: success_url,
                          cancel_return_url: cancel_url,
                          currency: ::ShiftCommerce::UiPaymentGateway::DEFAULT_CURRENCY,
                          description: DEFAULT_DESCRIPTION,
-
+                         shipping_options: shipping_options,
+                         shipping: convert_amount(shipping_method.price),
+                         subtotal: convert_amount(cart.total - (cart_shipping_method ? cart_shipping_method.price : 0) - cart.tax), # As the cart total wont include any shipping if it has no shipping method
+                         handling: convert_amount(0.0),
+                         tax: convert_amount(cart.tax),
                          items: items}
         if shipping_address
           paypal_params.merge! address_override: true,
@@ -61,10 +56,11 @@ module ShiftCommerce
                                    country: shipping_address.country,
                                    zip: shipping_address.postcode
 
+
                                }
         end
         if allow_shipping_change
-          paypal_params.merge! callback_url: callback_url, callback_timeout: 6, callback_version: 95, shipping_options: shipping_options, max_amount: convert_amount((cart.total * 1.2) + shipping_methods.last.price + shipping_methods.last.tax)
+          paypal_params.merge! callback_url: callback_url, callback_timeout: 6, callback_version: 95, max_amount: convert_amount((cart.total * 1.2) + shipping_methods.last.price + shipping_methods.last.tax)
         end
         response = gateway.setup_purchase convert_amount(cart.total), paypal_params
 
@@ -106,10 +102,11 @@ module ShiftCommerce
       private
 
       def update_cart_if_required(cart:, token:)
+        cart_shipping_method_id = cart.shipping_method.try(:id)
         details = gateway_details_for(token)
         shipping_method = shipping_methods.detect {|sm| sm.label == details.params["shipping_option_name"]}
         raise "Shipping method not found" unless shipping_method
-        cart.update_attributes shipping_method_id: shipping_method.id unless cart.shipping_method_id == shipping_method.id
+        cart.update_attributes shipping_method_id: shipping_method.id unless  shipping_method.id == cart_shipping_method_id
       end
 
       def gateway_details_for(token)
@@ -124,9 +121,8 @@ module ShiftCommerce
         config.shipping_method_model.constantize
       end
       def shipping_options
-        shipping_methods.map {|sm| {name: sm.label, amount: sm.price, default: false, label: sm.description}}.tap do |options|
-          options.first[:default] = true
-        end
+        shipping_method_id = shipping_method.id
+        shipping_methods.map {|sm| {name: sm.label, amount: convert_amount(sm.price), default: sm.id == shipping_method_id, label: sm.description}}
       end
 
       def get_details_from_paypal?
@@ -138,7 +134,7 @@ module ShiftCommerce
         (amount * 100).round
       end
 
-      attr_accessor :cart, :gateway, :request, :success_url, :cancel_url, :cart_has_addresses, :convert_address_service, :allow_shipping_change, :callback_url, :gateway_details, :config
+      attr_accessor :cart, :gateway, :request, :success_url, :cancel_url, :cart_has_addresses, :convert_address_service, :allow_shipping_change, :callback_url, :gateway_details, :config, :shipping_method, :cart_shipping_method
     end
   end
 end

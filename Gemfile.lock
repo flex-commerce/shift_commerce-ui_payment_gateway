@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    shift_commerce-ui_payment_gateway (0.0.7)
+    shift_commerce-ui_payment_gateway (0.0.8)
       activemerchant (~> 1.54)
 
 GEM

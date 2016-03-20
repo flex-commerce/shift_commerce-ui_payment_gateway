@@ -31,8 +31,12 @@ class Cart
                                       postcode: "shipping postcode",
                                       country: "GB"
   end
-  def shipping_method_id
+  def shipping_method
     nil
+  end
+
+  def tax
+    0.0
   end
 
   def line_items
