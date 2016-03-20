@@ -62,7 +62,7 @@ module ShiftCommerce
         if allow_shipping_change
           paypal_params.merge! callback_url: callback_url, callback_timeout: 6, callback_version: 95, max_amount: convert_amount((cart.total * 1.2) + shipping_methods.last.price + shipping_methods.last.tax)
         end
-        response = gateway.setup_purchase convert_amount(cart.total), paypal_params
+        response = gateway.setup_purchase convert_amount(cart_shipping_method ? cart.total : cart.total + shipping_method.price), paypal_params
 
         if response.success?
           gateway.redirect_url_for(response.token)
