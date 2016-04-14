@@ -1,8 +1,7 @@
 PATH
   remote: .
   specs:
-    shift_commerce-ui_payment_gateway (0.0.9)
-      activemerchant (~> 1.54)
+    shift_commerce-ui_payment_gateway (0.1.1)
 
 GEM
   remote: https://rubygems.org/
@@ -29,11 +28,6 @@ GEM
     activejob (4.2.6)
       activesupport (= 4.2.6)
       globalid (>= 0.3.0)
-    activemerchant (1.58.0)
-      activesupport (>= 3.2.14, < 5.1)
-      builder (>= 2.1.2, < 4.0.0)
-      i18n (>= 0.6.9)
-      nokogiri (~> 1.4)
     activemodel (4.2.6)
       activesupport (= 4.2.6)
       builder (~> 3.1)
