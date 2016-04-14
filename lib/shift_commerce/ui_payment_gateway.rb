@@ -8,11 +8,5 @@ module ShiftCommerce
     end
     DEFAULT_CURRENCY="GBP"
     autoload :ControllerExtensions, File.expand_path("./ui_payment_gateway/controller_extensions", __dir__)
-    autoload :PaymentService, File.expand_path("../../app/services/payment_service", __dir__)
-    autoload :PaypalExpressEngine, File.expand_path("./ui_payment_gateway/engines/paypal_express_engine", __dir__)
-    autoload :Exceptions, File.expand_path("./ui_payment_gateway/exceptions", __dir__)
-    module Paypal
-      autoload :ConvertAddress, File.expand_path("../../app/services/paypal/convert_address", __dir__)
-    end
   end
 end
