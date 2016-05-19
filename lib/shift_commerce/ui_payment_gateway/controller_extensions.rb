@@ -8,7 +8,7 @@ module ShiftCommerce
       end
 
       def new_with_gateway
-        setup = ::FlexCommerce::PaymentProviderSetup.create(cart_id: cart.id, payment_provider_id: "reference:paypal_express", success_url: success_url, cancel_url: cancel_url, ip_address: request.remote_ip, allow_shipping_change: true)
+        setup = ::FlexCommerce::PaymentProviderSetup.create(cart_id: cart.id, payment_provider_id: "reference:paypal_express", success_url: success_url, cancel_url: cancel_url, ip_address: request.remote_ip, allow_shipping_change: allow_shipping_method_change, use_mobile_payments: use_mobile_payments)
         if setup.persisted?
           redirect_to setup.redirect_url
         else
@@ -43,6 +43,14 @@ module ShiftCommerce
 
       def cancel_url
         url_for(action: :new).gsub(/\/transactions\/new$/, '')
+      end
+
+      def allow_shipping_method_change
+        true
+      end
+
+      def use_mobile_payments
+        false
       end
 
     end
