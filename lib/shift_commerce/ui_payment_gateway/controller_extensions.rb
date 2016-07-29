@@ -22,7 +22,24 @@ module ShiftCommerce
       end
 
       def new_with_token
-        order = FlexCommerce::Order.create! cart_id: cart.id, order_ip_address: request.ip, transaction_attributes: { gateway_response: { token: params[:token], payer_id: params[:PayerID] }, amount: cart.total, currency: ::ShiftCommerce::UiPaymentGateway::DEFAULT_CURRENCY, transaction_type: "authorisation", status: "received", payment_gateway_reference: "paypal_express" }
+        transaction = FlexCommerce::PaymentTransaction.create cart_id: cart.id,
+                                                              gateway_response: {
+                                                                  token: params[:token], payer_id: params[:PayerID]
+                                                              },
+                                                              amount: cart.total,
+                                                              currency: ::ShiftCommerce::UiPaymentGateway::DEFAULT_CURRENCY,
+                                                              transaction_type: "authorisation",
+                                                              status: "received",
+                                                              payment_gateway_reference: "paypal_express"
+        # @TODO Decide on a better thing to do that raise an exception - but must be generic
+        raise "Transaction not saved" unless transaction.persisted?
+        cart.add_payment_transaction(transaction)
+        cart.shipping_address_attributes = transaction.shipping_address_attributes unless cart.shipping_address.present?
+        cart.billing_address_attributes = transaction.billing_address_attributes unless cart.billing_address.present?
+        cart.shipping_method_id = transaction.shipping_method_id unless cart.shipping_method.present? || transaction.shipping_method_id.nil?
+        cart.email = transaction.email if cart.email.empty?
+        cart.save!
+        order = FlexCommerce::Order.create! cart_id: cart.id, order_ip_address: request.ip
         on_order_created(order)
       end
 
